@@ -1,0 +1,13 @@
+{
+    "name": "darkilliant/demo-elastica",
+    "minimum-stability": "dev",
+    "require": {
+        "ruflin/elastica": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Jean Pasqualini",
+            "email": "jpasqualini@wynd.eu"
+        }
+    ]
+}

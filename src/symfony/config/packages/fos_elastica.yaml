@@ -1,0 +1,52 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/Resources/doc/setup.md
+fos_elastica:
+    serializer: ~
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            index_name: app_%kernel.environment%
+            use_alias: false
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            custom_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter:  [ lowercase, asciifolding, stopwords, elision, worddelimiter ]
+                            custom_search_analyzer:
+                                type: custom
+                                tokenizer: nGram
+                                filter:  [ lowercase, asciifolding, stopwords, snowball, worddelimiter ]
+                        tokenizer:
+                            nGram:
+                                type: nGram
+                                min_gram: 3
+                                max_gram: 20
+
+                        filter:
+                            snowball:
+                                type: snowball
+                                language: French
+                            elision:
+                                type: elision
+                                articles: [l, m, t, qu, n, s, j, d]
+                            stopwords:
+                                type: stop
+                                stopwords: [_french_]
+                                ignore_case: true
+                            worddelimiter:
+                                type: word_delimiter
+            types:
+              product:
+                  dynamic: true
+                  properties:
+                      id: ~
+                  persistence:
+                      driver: orm
+                      model: App\Entity\Product
+                  serializer:
+                      groups: ['elastica']
+                      serialize_null: false
+
